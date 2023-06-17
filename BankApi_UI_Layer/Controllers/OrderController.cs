@@ -1,7 +1,9 @@
 ﻿using Bank_Data_Layer.DAL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BankApi_UI_Layer.Controllers
 {
@@ -15,9 +17,10 @@ namespace BankApi_UI_Layer.Controllers
             _context = context;
         }
         [HttpGet]
-        public IActionResult GetOrders()
+        public async Task<IActionResult> GetOrdersAsync()
         {
-            var Orders = _context.Orders.ToList();
+            int a = 5;
+            var Orders = await _context.Orders.ToListAsync();
             return Ok(Orders);
         }
     }
