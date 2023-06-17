@@ -1,0 +1,7 @@
+/.vs
+/Bank_Data_Layer/bin
+/Bank_Data_Layer/obj
+/Bank_Logic_Layer/bin
+/Bank_Logic_Layer/obj
+/BankApi_UI_Layer/bin
+/BankApi_UI_Layer/obj
