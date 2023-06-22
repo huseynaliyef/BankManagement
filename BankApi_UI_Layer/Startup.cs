@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bank_Logic_Layer.Extensions;
 
 namespace BankApi_UI_Layer
 {
@@ -28,6 +29,7 @@ namespace BankApi_UI_Layer
         public void ConfigureServices(IServiceCollection services)
         {
             services.InjectDataBase(Configuration.GetConnectionString("Default"));
+            services.LogicServices();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
