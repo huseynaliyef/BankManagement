@@ -13,9 +13,15 @@ namespace Bank_Logic_Layer.Logics
     public class CustomerLogic
     {
         private readonly IGenericRepository<Customer> _customerRepository;
-        public CustomerLogic(IGenericRepository<Customer> customerRepository)
+        private readonly IGenericRepository<Role> _roleRepository;
+        private readonly IGenericRepository<CustomerRole> _customerRoleRepository;
+        public CustomerLogic(IGenericRepository<Customer> customerRepository,
+                            IGenericRepository<Role> roleRepository,
+                            IGenericRepository<CustomerRole> customerRoleRepository)
         {
             _customerRepository = customerRepository;
+            _roleRepository = roleRepository;
+            _customerRoleRepository = customerRoleRepository;
         }
 
         public async Task<bool> customerRegistration(CustomerRegisterUIDTO customer)
@@ -45,6 +51,19 @@ namespace Bank_Logic_Layer.Logics
             return false; 
         }
 
-        
+        public async Task<bool> GiveRoleToCustomer(RoleUIDTO role)
+        {
+            var giveRole = await _roleRepository.Find(role.Id);
+            var customer = await _customerRepository.Find(role.CustomerId);
+            if (giveRole != null && customer != null)
+            {
+                await _customerRoleRepository
+                    .AddAndCommit(new CustomerRole { CustomerId = customer.Id, RoleId = role.Id });
+                
+                return true;
+            }
+            return false;
+        }
+
     }
 }

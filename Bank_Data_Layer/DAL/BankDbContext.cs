@@ -35,11 +35,38 @@ namespace Bank_Data_Layer.DAL
             //    .WithMany()
             //    .HasForeignKey(c => c.CardTypeId);
 
+            modelBuilder.Entity<CustomerRole>()
+                .HasKey(cr => new { cr.CustomerId, cr.RoleId });
+
+            modelBuilder.Entity<CustomerRole>()
+                .HasOne(cc => cc.Customer)
+                .WithMany(c => c.CustomerRoles)
+                .HasForeignKey(cc => cc.CustomerId);
+
+            modelBuilder.Entity<CustomerRole>()
+                .HasOne(cc => cc.Role)
+                .WithMany(c => c.CustomerRoles)
+                .HasForeignKey(cc => cc.RoleId);
+
+
             modelBuilder.Entity<Bank>()
                 .HasData(new Bank()
                 {
                     Id = 1,
                     Name = "Kapital Bank"
+                });
+
+            modelBuilder.Entity<Role>()
+                .HasData(new Role()
+                {
+                    Id = 1,
+                    RoleName = "Admin"
+                });
+            modelBuilder.Entity<Role>()
+                .HasData(new Role()
+                {
+                    Id = 2,
+                    RoleName = "User"
                 });
 
         }
@@ -48,6 +75,9 @@ namespace Bank_Data_Layer.DAL
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CardUser> CardUsers { get; set; }
         public DbSet<Order> Orders { get; set; }
+
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<CustomerRole> CustomersRoles { get; set; }
 
     }
 }

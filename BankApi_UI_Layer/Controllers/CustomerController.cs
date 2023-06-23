@@ -40,6 +40,17 @@ namespace BankApi_UI_Layer.Controllers
             return BadRequest("Username or password is wrong!");
         }
 
+        [HttpPut]
+        public async Task<IActionResult> GiveRole(RoleUIDTO role)
+        {
+            var operation = await _customerLogic.GiveRoleToCustomer(role);
+            if (operation)
+            {
+                return Ok("Role succuessfully given.");
+            }
+            return BadRequest("Occure Error");
+        }
+
         [HttpGet]
         public async Task<IActionResult> Logout()
         {

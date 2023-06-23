@@ -138,6 +138,21 @@ namespace Bank_Data_Layer.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("Bank_Data_Layer.Entities.CustomerRole", b =>
+                {
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CustomerId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("CustomersRoles");
+                });
+
             modelBuilder.Entity("Bank_Data_Layer.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -164,6 +179,38 @@ namespace Bank_Data_Layer.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Bank_Data_Layer.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RoleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RoleName = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RoleName = "User"
+                        });
                 });
 
             modelBuilder.Entity("Bank_Data_Layer.Entities.CardType", b =>
@@ -194,6 +241,25 @@ namespace Bank_Data_Layer.Migrations
                     b.Navigation("CardType");
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Bank_Data_Layer.Entities.CustomerRole", b =>
+                {
+                    b.HasOne("Bank_Data_Layer.Entities.Customer", "Customer")
+                        .WithMany("CustomerRoles")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bank_Data_Layer.Entities.Role", "Role")
+                        .WithMany("CustomerRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Bank_Data_Layer.Entities.Order", b =>
@@ -227,7 +293,14 @@ namespace Bank_Data_Layer.Migrations
 
             modelBuilder.Entity("Bank_Data_Layer.Entities.Customer", b =>
                 {
+                    b.Navigation("CustomerRoles");
+
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Bank_Data_Layer.Entities.Role", b =>
+                {
+                    b.Navigation("CustomerRoles");
                 });
 #pragma warning restore 612, 618
         }

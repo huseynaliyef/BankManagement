@@ -13,6 +13,7 @@ namespace Bank_Data_Layer.Entities
         public string FinCode { get; set; }
         public  string UserName { get; set; }
         public string Password { get; set; }
+        public ICollection<CustomerRole> CustomerRoles { get; set; }
         public List<Order> Orders { get; set; }
     }
 }
