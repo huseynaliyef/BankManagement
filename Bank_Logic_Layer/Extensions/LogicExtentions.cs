@@ -16,6 +16,7 @@ namespace Bank_Logic_Layer.Extensions
        {
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<CustomerLogic>();
+            services.AddScoped<CardTypeLogic>();
        }
     }
 }
