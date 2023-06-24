@@ -18,6 +18,7 @@ namespace Bank_Logic_Layer.Extensions
             services.AddScoped<CustomerLogic>();
             services.AddScoped<CardTypeLogic>();
             services.AddScoped<CardUserLogic>();
+            services.AddScoped<OrderLogic>();
        }
     }
 }
